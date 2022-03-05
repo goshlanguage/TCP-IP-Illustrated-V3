@@ -6,7 +6,7 @@ main(int argc, char *argv[])
   // see more about the sockaddr_in struct in the ip man page:
   // https://man7.org/linux/man-pages/man7/ip.7.html
   struct sockaddr_in serv;
-  char request[REQUEST], reply[REPLY];
+  char reply[REPLY];
   int sockfd, n;
   ssize_t sent;
 
@@ -28,12 +28,12 @@ main(int argc, char *argv[])
   serv.sin_port = htons(UDP_SERV_PORT);
 
   // form request[] ...
-  char syn[4] = "syn";
+  char request[REQUEST] = "syn";
 
-  if ((sent = sendto(sockfd, syn, REQUEST, 0, (SA) &serv, sizeof(serv))) != REQUEST)
+  if ((sent = sendto(sockfd, request, REQUEST, 0, (SA) &serv, sizeof(serv))) != REQUEST)
     printf("sendto error\n");
 
-  printf("Sent: %s\n", syn);
+  printf("Sent: %s\n", request);
 
   if ((n = recvfrom(sockfd, reply, REPLY, 0, (SA) NULL, NULL)) < 0)
     printf("recvfrom error\n");

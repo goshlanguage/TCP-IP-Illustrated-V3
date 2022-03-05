@@ -4,10 +4,10 @@ int
 main()
 {
   struct sockaddr_in serv, cli;
-  char request[REQUEST], reply[REPLY];
+  char request[REQUEST];
+  char reply[REPLY] = "ack";
   int sockfd, n;
   socklen_t clilen;
-  char ack[4] = "ack";
 
   if ((sockfd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
     printf("socket error\n");
@@ -29,14 +29,15 @@ main()
     if (n > 0)
     {
       // process n bytes of request[] and create a reply[]
+
       printf("received: %s\n", request);
     }
 
-    if (sendto(sockfd, ack, REPLY, 0, (SA) &cli, sizeof(cli)) != REPLY)
+    if (sendto(sockfd, reply, REPLY, 0, (SA) &cli, sizeof(cli)) != REPLY)
     {
       printf("sendto error\n");
     } else {
-      printf("sent: %s\n", ack);
+      printf("sent: %s\n", reply);
     }
   }
 }
